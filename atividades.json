@@ -7,140 +7,283 @@
         "q": "Se n = 4, qual o valor da expressão 2n + 5?",
         "opts": ["9", "13", "11", "15"],
         "ans": 1,
-        "exp": "Correto! 2 * 4 = 8, e 8 + 5 = 13."
+        "exp": "Explicação: Lembre-se que 2n significa 2 vezes o n. Então fica: 2 * 4 = 8, e 8 + 5 = 13."
       },
       {
         "q": "Se x = 3, quanto vale 5x - 2?",
         "opts": ["13", "15", "10", "18"],
         "ans": 0,
-        "exp": "Exato! 5 * 3 = 15, e 15 - 2 = 13."
+        "exp": "Explicação: Trocando o x por 3, temos 5 * 3 = 15. Depois fazemos 15 - 2 = 13."
       },
       {
         "q": "Se y = 10, qual o valor de y/2 + 7?",
         "opts": ["10", "12", "14", "17"],
         "ans": 1,
-        "exp": "Isso mesmo! 10 dividido por 2 é 5, e 5 + 7 = 12."
+        "exp": "Explicação: A barra (/) significa divisão. 10 dividido por 2 é 5, e 5 + 7 = 12."
       },
       {
         "q": "Sendo a = 6, quanto vale a² + 1?",
         "opts": ["7", "13", "37", "36"],
         "ans": 2,
-        "exp": "Perfeito! 6 ao quadrado é 36, e 36 + 1 = 37."
+        "exp": "Explicação: 'a' ao quadrado significa ele vezes ele mesmo. Então 6 * 6 é 36, e 36 + 1 = 37."
       },
       {
-        "q": "Se b = 2, quanto vale 3b + b?",
+        "q": "Se b = 2, quanto vale a expressão 3b + b?",
         "opts": ["6", "8", "10", "12"],
         "ans": 1,
-        "exp": "Correto! 3*2 + 2 = 6 + 2 = 8."
+        "exp": "Explicação: Substituindo temos: (3 * 2) + 2 = 6 + 2 = 8. Ou juntando as letras: 4b, que dá 4 * 2 = 8."
       }
     ]
   },
   {
-    "titulo": "Álgebra - Simplificação e Termos (Nível 2)",
-    "descricao": "Agrupando termos semelhantes.",
+    "titulo": "Álgebra - Simplificação de Termos (Nível 2)",
+    "descricao": "Agrupando letras iguais (termos semelhantes).",
     "questions": [
       {
         "q": "Qual a forma simplificada de 4x + 2x + 3y?",
         "opts": ["6xy + 3", "6x + 3y", "9xy", "6x + 3"],
         "ans": 1,
-        "exp": "Isso! Somamos os x (4+2=6) e mantemos o y separado."
+        "exp": "Explicação: Só podemos somar quem tem a mesma letra. Juntamos os x (4x + 2x = 6x) e mantemos o y separado."
       },
       {
-        "q": "Simplifique: 5a + 3b - 2a + b.",
+        "q": "Simplifique a expressão: 5a + 3b - 2a + b.",
         "opts": ["3a + 4b", "3a + 2b", "7a + 4b", "3a + 3b"],
         "ans": 0,
-        "exp": "Exato! (5a - 2a = 3a) e (3b + 1b = 4b)."
+        "exp": "Explicação: Juntando os 'a': 5a - 2a = 3a. Juntando os 'b': 3b + 1b = 4b."
       },
       {
-        "q": "Qual o resultado de 2x + x + x?",
+        "q": "Qual o resultado final de 2x + x + x?",
         "opts": ["2x", "3x", "4x", "2x³"],
         "ans": 2,
-        "exp": "Perfeito! 2x + 1x + 1x = 4x."
+        "exp": "Explicação: O 'x' sozinho vale 1x. Então: 2x + 1x + 1x = 4x."
       },
       {
         "q": "Simplifique a expressão: 10y - 2y - 4y.",
         "opts": ["4y", "8y", "6y", "12y"],
         "ans": 0,
-        "exp": "Correto! 10 - 2 - 4 = 4."
+        "exp": "Explicação: Todos são 'y', então podemos subtrair tudo direto: 10y - 2y = 8y. Depois 8y - 4y = 4y."
       },
       {
         "q": "Como simplificar: 3m + 2n + m + 5n?",
         "opts": ["4m + 7n", "5m + 6n", "3m + 7n", "4m + 3n"],
         "ans": 0,
-        "exp": "Isso mesmo! 3m + 1m = 4m e 2n + 5n = 7n."
+        "exp": "Explicação: Agrupando os 'm': 3m + 1m = 4m. Agrupando os 'n': 2n + 5n = 7n."
       }
     ]
   },
   {
     "titulo": "Álgebra - Equações Básicas (Nível 3)",
-    "descricao": "Encontrando o valor da incógnita.",
+    "descricao": "Como encontrar o valor da incógnita (a caixa misteriosa).",
     "questions": [
       {
-        "q": "Se x + 5 = 12, qual o valor de x?",
+        "q": "Na equação x + 5 = 12, qual o valor de x?",
         "opts": ["5", "6", "7", "17"],
         "ans": 2,
-        "exp": "Exato! Se x + 5 é 12, então x é 12 - 5 = 7."
+        "exp": "Explicação: Que número somado a 5 dá 12? É só fazer a operação inversa: 12 - 5 = 7."
       },
       {
         "q": "Se 2x = 18, qual o valor de x?",
         "opts": ["8", "9", "20", "16"],
         "ans": 1,
-        "exp": "Perfeito! Se 2 vezes x é 18, dividimos 18 por 2."
+        "exp": "Explicação: Se 2 vezes um número é 18, basta dividir 18 por 2. Logo, x = 9."
       },
       {
         "q": "Na equação x - 8 = 2, qual o valor de x?",
         "opts": ["6", "10", "16", "4"],
         "ans": 1,
-        "exp": "Correto! x = 2 + 8, logo x = 10."
+        "exp": "Explicação: O 8 estava subtraindo, então passa para o outro lado somando: x = 2 + 8 = 10."
       },
       {
         "q": "Se 3x + 1 = 10, qual o valor de x?",
         "opts": ["2", "3", "4", "9"],
         "ans": 1,
-        "exp": "Isso mesmo! 3x = 9, logo x = 3."
+        "exp": "Explicação: Tirando o 1 dos dois lados, fica 3x = 9. O número que multiplicado por 3 dá 9 é o 3."
       },
       {
-        "q": "Resolva: 4x = 20.",
+        "q": "Resolva a equação: 4x = 20.",
         "opts": ["4", "5", "6", "16"],
         "ans": 1,
-        "exp": "Exato! 20 dividido por 4 é 5."
+        "exp": "Explicação: Fazendo a operação inversa: 20 dividido por 4 é igual a 5."
       }
     ]
   },
   {
-    "titulo": "Álgebra - Problemas de Lógica (Nível 4)",
-    "descricao": "Modelagem de situações reais.",
+    "titulo": "Álgebra - Problemas e Lógica (Nível 4)",
+    "descricao": "Usando as letras para modelar situações da vida real.",
     "questions": [
       {
-        "q": "Uma caixa tem x bolas. Se dobrarmos o número de bolas e somarmos 3, temos 15. Quantas bolas (x) tem a caixa?",
+        "q": "Uma caixa tem x bolas. Se dobrarmos o número de bolas e somarmos 3, teremos 15. Quantas bolas (x) tem a caixa?",
         "opts": ["4", "5", "6", "7"],
         "ans": 2,
-        "exp": "Perfeito! 2x + 3 = 15 -> 2x = 12 -> x = 6."
+        "exp": "Perfeito! A equação é 2x + 3 = 15. Logo, 2x = 12. O número que multiplicado por 2 dá 12 é o 6."
       },
       {
-        "q": "A idade de Pedro é x. Sua irmã tem x + 5 anos. Se a soma das idades é 25, qual a idade de Pedro?",
+        "q": "A idade de Pedro é x. Sua irmã é 5 anos mais velha (x + 5). Se a soma das idades é 25, qual a idade de Pedro?",
         "opts": ["10", "12", "15", "20"],
         "ans": 0,
-        "exp": "Isso! x + (x + 5) = 25 -> 2x = 20 -> x = 10."
+        "exp": "Explicação:! Somando tudo: x + x + 5 = 25. Logo, 2x + 5 = 25 -> 2x = 20. Pedro tem 10 anos."
       },
       {
-        "q": "O triplo de um número subtraído de 10 é 2. Qual é o número?",
-        "opts": ["2", "3", "4", "5"],
+        "q": "O dobro de um número menos 10 é igual a 2. Qual é esse número?",
+        "opts": ["4", "5", "6", "8"],
         "ans": 2,
-        "exp": "Exato! 10 - 3x = 2 -> 3x = 8 (errado, veja: 3x = 10-2=8). O número é 8/3, mas para valores inteiros, vamos considerar: O triplo de x + 2 = 11.",
-        "ans": 1
+        "exp": "Explicação: Escrevendo em matematiquês: 2x - 10 = 2. Passando o 10 para o outro lado fica 2x = 12. Logo, x = 6."
       },
       {
-        "q": "Um táxi cobra 5 reais fixos mais 2 reais por km (k). Qual a fórmula do custo total?",
+        "q": "Um táxi cobra 5 reais fixos mais 2 reais por cada km rodado (k). Qual a fórmula que representa o preço total da corrida?",
         "opts": ["5 + 2k", "2 + 5k", "7k", "10k"],
         "ans": 0,
-        "exp": "Correto! O fixo é 5 e o variável é 2 vezes o número de quilômetros."
+        "exp": "Correto! A taxa fixa é 5, e a variável (que depende da letra) é 2 vezes o número de quilômetros (2k)."
       },
       {
-        "q": "Se você tem x reais e gasta 10, ficando com 15, quanto você tinha?",
-        "opts": ["5", "15", "25", "30"],
+        "q": "Se você tem x reais, gasta 10 e ainda fica com 15, qual a equação e quanto você tinha no começo?",
+        "opts": ["x + 10 = 15 (Tinha 5)", "x - 15 = 10 (Tinha 5)", "x - 10 = 15 (Tinha 25)", "10x = 15 (Tinha 30)"],
         "ans": 2,
-        "exp": "Isso! x - 10 = 15, logo x = 25."
+        "exp": "Isso! A equação é o dinheiro inicial (x) menos o que gastou (10) igual a 15. Você tinha 25 reais."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - A Missão Continua (Nível 1)",
+    "descricao": "Calculando o valor numérico com mais de uma variável.",
+    "questions": [
+      {
+        "q": "O perímetro de um quadrado de lado 'L' é 4L. Se o lado L vale 5 cm, qual o perímetro?",
+        "opts": ["15 cm", "20 cm", "9 cm", "25 cm"],
+        "ans": 1,
+        "exp": "Excelente! O 4L significa 4 vezes o L. Então, 4 * 5 = 20."
+      },
+      {
+        "q": "Sendo a = 2 e b = 4, qual o valor da expressão 2a + 3b?",
+        "opts": ["16", "12", "10", "24"],
+        "ans": 0,
+        "exp": "Exato! Primeiro multiplicamos: (2 * 2) = 4, e (3 * 4) = 12. Somando 4 + 12 temos 16."
+      },
+      {
+        "q": "Dada a expressão x² - 3, qual o seu valor se x = 4?",
+        "opts": ["5", "11", "13", "16"],
+        "ans": 2,
+        "exp": "Isso! Lembre-se que 4² é 4*4=16. Depois fazemos 16 - 3 = 13."
+      },
+      {
+        "q": "Se y = 3, quanto vale a expressão 10 - 2y?",
+        "opts": ["4", "8", "16", "2"],
+        "ans": 0,
+        "exp": "Perfeito! A multiplicação vem primeiro: 2 * 3 = 6. Depois fazemos 10 - 6 = 4."
+      },
+      {
+        "q": "Se m = 6, qual o valor de (m / 2) + m?",
+        "opts": ["6", "9", "12", "15"],
+        "ans": 1,
+        "exp": "Correto! A metade de 6 é 3. Depois somamos com o próprio m (que é 6): 3 + 6 = 9."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - O Mestre do Inventário (Nível 2)",
+    "descricao": "Redução de termos misturando letras e números avulsos.",
+    "questions": [
+      {
+        "q": "Como simplificar a expressão: 7x + 5 - 2x?",
+        "opts": ["10x", "5x + 5", "12x - 5", "7x - 3"],
+        "ans": 1,
+        "exp": "Isso mesmo! Só podemos subtrair 'x' de 'x'. Fazemos 7x - 2x = 5x. O número 5 fica quietinho na dele."
+      },
+      {
+        "q": "Simplifique: 4a + 2b + a - b.",
+        "opts": ["5a + b", "4a + b", "5a + 3b", "3a + b"],
+        "ans": 0,
+        "exp": "Exato! Juntando os 'a': 4a + 1a = 5a. Juntando os 'b': 2b - 1b = 1b (ou apenas b)."
+      },
+      {
+        "q": "O perímetro de um triângulo é a soma de seus lados. Se os lados medem x, 2x e x+1, qual é a expressão simplificada do perímetro?",
+        "opts": ["3x + 1", "4x + 1", "4x", "x³ + 1"],
+        "ans": 1,
+        "exp": "Perfeito! Somando tudo: x + 2x + x + 1. Juntando as letras (1+2+1) = 4x. O resultado é 4x + 1."
+      },
+      {
+        "q": "Reduza os termos semelhantes: 8y + 2x - 3y + x.",
+        "opts": ["3x + 5y", "11x + 3y", "5xy", "8xy"],
+        "ans": 0,
+        "exp": "Correto! Juntando os 'y': 8y - 3y = 5y. Juntando os 'x': 2x + 1x = 3x. A ordem não importa, então 3x + 5y está certo!"
+      },
+      {
+        "q": "Resolva o que está nos parênteses primeiro e simplifique: 10z - (3z + 2z).",
+        "opts": ["5z", "9z", "15z", "10z"],
+        "ans": 0,
+        "exp": "Isso! Primeiro juntamos dentro do parênteses: 3z + 2z = 5z. Depois fazemos 10z - 5z = 5z."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - Caça à Incógnita (Nível 3)",
+    "descricao": "Equações do 1º grau que exigem um passo a mais.",
+    "questions": [
+      {
+        "q": "Na equação x/2 = 10, qual o valor de x?",
+        "opts": ["5", "12", "20", "2"],
+        "ans": 2,
+        "exp": "Exato! Se a metade do número é 10, então o número inteiro só pode ser 20. (O 2 passa multiplicando)."
+      },
+      {
+        "q": "Resolva a equação: 5x - 4 = 11.",
+        "opts": ["2", "3", "4", "15"],
+        "ans": 1,
+        "exp": "Perfeito! Passamos o 4 somando: 5x = 11 + 4 (5x = 15). Que número vezes 5 dá 15? É o 3!"
+      },
+      {
+        "q": "Se x + x + 2 = 14, qual o valor de x?",
+        "opts": ["6", "8", "12", "7"],
+        "ans": 0,
+        "exp": "Correto! Juntando temos 2x + 2 = 14. Passando o 2 subtraindo: 2x = 12. A metade de 12 é 6."
+      },
+      {
+        "q": "Descubra o valor de x: 100 - 3x = 70.",
+        "opts": ["10", "20", "30", "40"],
+        "ans": 0,
+        "exp": "Isso mesmo! Quanto precisamos tirar de 100 para sobrar 70? Precisamos tirar 30! Então 3x = 30, logo x = 10."
+      },
+      {
+        "q": "Na equação 4x = x + 15, qual é a resposta?",
+        "opts": ["3", "4", "5", "15"],
+        "ans": 2,
+        "exp": "Exato! Se tirarmos 1 'x' de cada lado da balança, ficamos com 3x = 15. Logo, x = 5."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - Lógica de Games e Lanches (Nível 4)",
+    "descricao": "Interpretando problemas do cotidiano em expressões.",
+    "questions": [
+      {
+        "q": "A pontuação num jogo é calculada por 50L + 200 (onde L é o nível atual). Se o jogador está no nível L=3, qual sua pontuação?",
+        "opts": ["250", "350", "450", "150"],
+        "ans": 1,
+        "exp": "Perfeito! Multiplicamos 50 pelo nível 3 (que dá 150) e somamos os 200 pontos bônus. Total = 350."
+      },
+      {
+        "q": "Alugar uma bicicleta custa R$ 10 de taxa fixa + R$ 3 por hora (h). Se você pagou R$ 25 (10 + 3h = 25), por quantas horas alugou?",
+        "opts": ["3", "4", "5", "6"],
+        "ans": 2,
+        "exp": "Isso! Tirando os 10 da taxa, sobraram R$ 15 para pagar as horas. Como cada hora é 3, 15 dividido por 3 = 5 horas."
+      },
+      {
+        "q": "Comprar 3 sucos (s) e 1 salgado (p) custa: 3s + p. Se o suco é R$ 4 e o salgado é R$ 8, quanto custa o pedido?",
+        "opts": ["15 reais", "20 reais", "24 reais", "12 reais"],
+        "ans": 1,
+        "exp": "Correto! Trocando as letras pelos preços: 3*(4) + 8 = 12 + 8 = 20."
+      },
+      {
+        "q": "A idade de Leo é x. O pai dele tem o triplo da idade (3x). Juntos eles têm 48 anos. Qual a idade de Leo?",
+        "opts": ["10 anos", "12 anos", "14 anos", "16 anos"],
+        "ans": 1,
+        "exp": "Genial! A equação é x + 3x = 48. Isso dá 4x = 48. Dividindo 48 por 4, descobrimos que Leo tem 12 anos."
+      },
+      {
+        "q": "Pensei num número (x). Dividi ele por 2, somei 5 e o resultado foi 15. Que número eu pensei?",
+        "opts": ["10", "20", "30", "40"],
+        "ans": 1,
+        "exp": "Exato! A equação é: x/2 + 5 = 15. Se o resultado deu 15, antes de somar 5 eu tinha 10. Se a metade do número é 10, o número é 20!"
       }
     ]
   }

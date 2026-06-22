@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Criador & Jogador de Quizzes de Matemática</title>
+    <title>Criador & Jogador de Quizzes</title>
     <!-- Tailwind CSS para um design moderno e responsivo -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons para elementos visuais limpos -->
@@ -32,7 +32,6 @@
             </div>
             <div>
                 <h1 class="text-xl font-bold tracking-tight">Estúdio de Matemática Interativa</h1>
-                <p class="text-xs text-slate-400">7º Ano • Ângulos & Álgebra</p>
             </div>
         </div>
         <!-- Seletor de Modo -->
@@ -166,7 +165,7 @@
 
                             <!-- Explicação / Rationale -->
                             <div>
-                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Explicação Pedagógica (Feedback imediato para o aluno)</label>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Explicação Pedagógica (Feedback para o aluno)</label>
                                 <textarea id="field-q-exp" class="w-full border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl p-3 text-sm resize-none h-16 outline-none transition" placeholder="Explique resumidamente por que a alternativa selecionada está correta..."></textarea>
                             </div>
                         </div>
@@ -291,6 +290,10 @@
             </div>
         </div>
     </div>
+
+    <footer class="bg-slate-900 text-white shadow-md px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <p><small>&copy;2026 - <a href="http://github.com/Andre-Wa">Andre-Wa</a></small></p>
+    </footer>
 
     <!-- SCRIPT DE EXECUÇÃO -->
     <script>
