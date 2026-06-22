@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Criador & Jogador de Quizzes de Matemática</title>
+    <!-- Tailwind CSS para um design moderno e responsivo -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons para elementos visuais limpos -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* Animação para o estado de aviso do temporizador */
+        @keyframes pulse-red {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.8; transform: scale(1.05); }
+        }
+        .timer-warning {
+            color: #EF4444 !important;
+            border-color: #EF4444 !important;
+            background-color: #FEE2E2 !important;
+            animation: pulse-red 1s infinite;
+        }
+    </style>
+</head>
+<body class="bg-slate-100 text-slate-800 min-h-screen font-sans flex flex-col">
+
+    <!-- CABEÇALHO DO SITE -->
+    <header class="bg-slate-900 text-white shadow-md px-6 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+        <div class="flex items-center gap-3">
+            <div class="bg-indigo-600 p-2 rounded-lg text-white">
+                <i data-lucide="calculator" class="w-6 h-6"></i>
+            </div>
+            <div>
+                <h1 class="text-xl font-bold tracking-tight">Estúdio de Matemática Interativa</h1>
+                <p class="text-xs text-slate-400">7º Ano • Ângulos & Álgebra</p>
+            </div>
+        </div>
+        <!-- Seletor de Modo -->
+        <div class="flex bg-slate-800 p-1 rounded-xl border border-slate-700">
+            <button id="btn-mode-editor" onclick="switchMode('editor')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-indigo-600 text-white">
+                <i data-lucide="edit-3" class="w-4 h-4"></i> Editor de Questões
+            </button>
+            <button id="btn-mode-player" onclick="switchMode('player')" class="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-300 hover:text-white">
+                <i data-lucide="play" class="w-4 h-4"></i> Jogar Quiz
+            </button>
+        </div>
+    </header>
+
+    <!-- NOTIFICAÇÃO PERSONALIZADA (Substitui o alert padrão) -->
+    <div id="custom-toast" class="fixed top-5 right-5 z-50 transform translate-y-[-150%] transition-transform duration-300 bg-emerald-600 text-white px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 font-medium">
+        <i data-lucide="check-circle" class="w-5 h-5"></i>
+        <span id="toast-message">Mensagem</span>
+    </div>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main class="flex-grow p-4 md:p-8 max-w-7xl w-full mx-auto">
+        
+        <!-- ================= MODO EDITOR ================= -->
+        <section id="section-editor" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <!-- Coluna Esquerda: Lista de Perguntas & Presets -->
+            <div class="lg:col-span-5 flex flex-col gap-6">
+                
+                <!-- Caixa de Presets rápidos -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider mb-3">Carregar Modelo de Aula</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <button onclick="loadPreset('algebra')" class="flex flex-col items-center justify-center p-3 bg-indigo-50 hover:bg-indigo-100 border border-indigo-200 rounded-xl transition text-center group">
+                            <span class="text-indigo-700 font-bold text-sm">Linguagem Algébrica</span>
+                            <span class="text-[10px] text-indigo-500 mt-1">Introdução a Letras</span>
+                        </button>
+                        <button onclick="loadPreset('angles')" class="flex flex-col items-center justify-center p-3 bg-emerald-50 hover:bg-emerald-100 border border-emerald-200 rounded-xl transition text-center group">
+                            <span class="text-emerald-700 font-bold text-sm">Ângulos Fixos</span>
+                            <span class="text-[10px] text-emerald-500 mt-1">Classificação & Operações</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- NOVA CAIXA: Atividades do Arquivo JSON -->
+                <div class="bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+                    <div class="flex justify-between items-center mb-3">
+                        <h3 class="text-sm font-bold text-slate-400 uppercase tracking-wider">Atividades do Arquivo</h3>
+                        <button onclick="fetchAtividades()" title="Recarregar JSON" class="text-slate-400 hover:text-indigo-600 transition flex items-center gap-1 text-xs font-semibold">
+                            <i data-lucide="refresh-cw" class="w-3.5 h-3.5"></i> Atualizar
+                        </button>
+                    </div>
+                    <!-- Container da Lista de Atividades JSON -->
+                    <div id="json-activities-container" class="grid grid-cols-1 gap-2 max-h-48 overflow-y-auto pr-2">
+                        <p class="text-xs text-slate-400 italic">Procurando atividades.json...</p>
+                    </div>
+                </div>
+
+                <!-- Lista de Perguntas Cadastradas -->
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 flex-grow flex flex-col min-h-[400px]">
+                    <div class="flex justify-between items-center mb-4">
+                        <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                            <i data-lucide="list" class="text-indigo-600"></i> Perguntas (<span id="question-count">0</span>)
+                        </h2>
+                        <button onclick="addNewQuestion()" class="flex items-center gap-1 bg-indigo-600 hover:bg-indigo-700 text-white text-xs px-3 py-1.5 rounded-lg font-bold transition">
+                            <i data-lucide="plus" class="w-3.5 h-3.5"></i> Nova
+                        </button>
+                    </div>
+
+                    <!-- Lista com Scroll -->
+                    <div id="questions-list-container" class="flex-grow overflow-y-auto max-h-[450px] pr-2 space-y-2">
+                        <!-- Gerado dinamicamente -->
+                    </div>
+
+                    <!-- Painel de Backup / Exportar -->
+                    <div class="border-t border-slate-100 pt-4 mt-4 flex justify-between gap-3">
+                        <button onclick="openBackupModal()" class="flex-1 border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs py-2 px-3 rounded-lg font-semibold flex items-center justify-center gap-1.5 transition">
+                            <i data-lucide="database" class="w-3.5 h-3.5"></i> Importar / Exportar
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Coluna Direita: Editor Detalhado da Pergunta Selecionada -->
+            <div class="lg:col-span-7">
+                <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200 h-full flex flex-col">
+                    <div id="editor-details-placeholder" class="text-center py-20 text-slate-400 flex flex-col items-center justify-center gap-4 flex-grow">
+                        <i data-lucide="file-question" class="w-16 h-16 text-slate-300"></i>
+                        <p class="font-medium">Selecione uma pergunta à esquerda para editar ou crie uma nova.</p>
+                    </div>
+
+                    <div id="editor-details-form" class="hidden flex-col flex-grow">
+                        <div class="flex justify-between items-center pb-4 mb-4 border-b border-slate-100">
+                            <h3 class="text-md font-bold text-slate-700">Editar Pergunta <span id="editor-question-num">#1</span></h3>
+                            <button id="btn-delete-question" class="text-red-500 hover:text-red-700 hover:bg-red-50 p-1.5 rounded-lg transition">
+                                <i data-lucide="trash-2" class="w-5 h-5"></i>
+                            </button>
+                        </div>
+
+                        <div class="space-y-4 flex-grow">
+                            <!-- Enunciado -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Enunciado da Pergunta</label>
+                                <textarea id="field-q-text" class="w-full border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl p-3 text-sm resize-none h-20 outline-none transition" placeholder="Escreva o enunciado da pergunta aqui..."></textarea>
+                            </div>
+
+                            <!-- Alternativas -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Alternativas (Selecione a Correta)</label>
+                                <div class="space-y-3">
+                                    <div class="flex items-center gap-3">
+                                        <input type="radio" name="correct-opt" value="0" id="radio-opt-0" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                        <span class="text-sm font-semibold text-slate-500 w-6">a)</span>
+                                        <input type="text" id="field-opt-0" class="flex-grow border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3 py-2 text-sm outline-none transition" placeholder="Alternativa A">
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <input type="radio" name="correct-opt" value="1" id="radio-opt-1" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                        <span class="text-sm font-semibold text-slate-500 w-6">b)</span>
+                                        <input type="text" id="field-opt-1" class="flex-grow border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3 py-2 text-sm outline-none transition" placeholder="Alternativa B">
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <input type="radio" name="correct-opt" value="2" id="radio-opt-2" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                        <span class="text-sm font-semibold text-slate-500 w-6">c)</span>
+                                        <input type="text" id="field-opt-2" class="flex-grow border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3 py-2 text-sm outline-none transition" placeholder="Alternativa C">
+                                    </div>
+                                    <div class="flex items-center gap-3">
+                                        <input type="radio" name="correct-opt" value="3" id="radio-opt-3" class="w-4 h-4 text-indigo-600 focus:ring-indigo-500 border-slate-300">
+                                        <span class="text-sm font-semibold text-slate-500 w-6">d)</span>
+                                        <input type="text" id="field-opt-3" class="flex-grow border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl px-3 py-2 text-sm outline-none transition" placeholder="Alternativa D">
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Explicação / Rationale -->
+                            <div>
+                                <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Explicação Pedagógica (Feedback imediato para o aluno)</label>
+                                <textarea id="field-q-exp" class="w-full border border-slate-300 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 rounded-xl p-3 text-sm resize-none h-16 outline-none transition" placeholder="Explique resumidamente por que a alternativa selecionada está correta..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="pt-4 border-t border-slate-100 mt-4 flex justify-end gap-3">
+                            <button onclick="saveCurrentEdits()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl text-sm font-bold shadow-sm transition">
+                                Guardar Alterações
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= MODO JOGADOR ================= -->
+        <section id="section-player" class="hidden max-w-4xl mx-auto flex flex-col gap-6">
+            
+            <div class="bg-white p-4 rounded-2xl shadow-sm border border-slate-200 flex justify-between items-center">
+                <button onclick="switchMode('editor')" class="flex items-center gap-1.5 text-slate-500 hover:text-slate-800 text-sm font-bold transition">
+                    <i data-lucide="arrow-left" class="w-4 h-4"></i> Voltar ao Editor
+                </button>
+                
+                <div class="flex items-center gap-2">
+                    <span class="text-xs font-bold text-slate-400 uppercase tracking-wider">Tempo Decorrido:</span>
+                    <div id="quiz-timer" class="bg-slate-100 border border-slate-300 px-3 py-1 rounded-full text-slate-700 font-mono font-bold text-sm tracking-wider">
+                        0:00
+                    </div>
+                </div>
+            </div>
+
+            <!-- CARD DE JOGO PRINCIPAL -->
+            <div id="player-card" class="bg-white p-8 rounded-3xl shadow-md border border-slate-200">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="bg-indigo-100 text-indigo-700 font-extrabold text-xs px-3 py-1 rounded-full uppercase tracking-wider" id="player-progress-badge">
+                        Questão 1 de 20
+                    </span>
+                    <span class="text-sm font-bold text-slate-400" id="player-score-badge">
+                        Acertos: 0
+                    </span>
+                </div>
+
+                <h2 id="player-question-text" class="text-2xl font-bold text-slate-800 leading-snug mb-8">
+                    Texto do enunciado...
+                </h2>
+
+                <div id="player-options-grid" class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+                    <!-- Gerado Dinamicamente -->
+                </div>
+
+                <div id="player-feedback" class="hidden bg-indigo-50 border-l-4 border-indigo-600 p-5 rounded-r-xl mb-6">
+                    <h4 class="text-indigo-800 font-bold text-sm mb-1 flex items-center gap-2">
+                        <i data-lucide="lightbulb" class="w-4 h-4"></i> Resposta Correta & Explicação:
+                    </h4>
+                    <p id="player-feedback-text" class="text-slate-700 text-sm leading-relaxed">
+                        Explicação...
+                    </p>
+                </div>
+
+                <div class="flex justify-end">
+                    <button id="player-btn-next" onclick="playerNextQuestion()" class="hidden bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl font-bold flex items-center gap-1 transition shadow-sm">
+                        Próxima <i data-lucide="chevron-right" class="w-4 h-4"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TELA DE RESULTADOS FINAIS -->
+            <div id="player-results-card" class="hidden bg-white p-8 rounded-3xl shadow-md border border-slate-200 text-center flex-col items-center py-12">
+                <div class="bg-emerald-100 text-emerald-600 p-4 rounded-full mb-4">
+                    <i data-lucide="trophy" class="w-12 h-12"></i>
+                </div>
+                <h2 class="text-3xl font-extrabold text-slate-800 mb-2">Desafio Concluído!</h2>
+                <p class="text-slate-500 mb-6 max-w-md">Excelente trabalho com a turma! Veja o desempenho geral alcançado:</p>
+                
+                <div class="bg-slate-50 border border-slate-100 rounded-2xl px-12 py-6 mb-8 inline-block">
+                    <span class="text-5xl font-black text-indigo-600" id="player-final-score">18 / 20</span>
+                    <p class="text-xs text-slate-400 font-bold uppercase mt-1">Pontuação Final</p>
+                </div>
+
+                <div class="flex gap-4">
+                    <button onclick="restartPlayerGame()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-6 py-2.5 rounded-xl font-bold transition">
+                        Jogar Novamente
+                    </button>
+                    <button onclick="switchMode('editor')" class="border border-slate-300 hover:bg-slate-50 text-slate-700 px-6 py-2.5 rounded-xl font-bold transition">
+                        Voltar ao Editor
+                    </button>
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- MODAL DE IMPORTAR / EXPORTAR (BACKUP) -->
+    <div id="backup-modal" class="hidden fixed inset-0 z-50 bg-slate-900/60 flex items-center justify-center p-4">
+        <!-- Seu modal original continua o mesmo -->
+        <div class="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden flex flex-col">
+            <div class="bg-slate-900 text-white p-5 flex justify-between items-center">
+                <h3 class="font-bold flex items-center gap-2 text-md">
+                    <i data-lucide="folder-sync"></i> Gerir Dados do Quiz
+                </h3>
+                <button onclick="closeBackupModal()" class="text-slate-400 hover:text-white transition">
+                    <i data-lucide="x" class="w-5 h-5"></i>
+                </button>
+            </div>
+            <div class="p-6 space-y-4">
+                <p class="text-xs text-slate-500 leading-relaxed">
+                    Copie o código JSON abaixo para fazer uma cópia de segurança do seu questionário personalizado.
+                </p>
+                <textarea id="field-backup-json" class="w-full h-64 font-mono text-[11px] p-3 border border-slate-300 rounded-xl focus:outline-none focus:border-indigo-500"></textarea>
+            </div>
+            <div class="bg-slate-50 px-6 py-4 flex justify-between gap-3 border-t border-slate-100">
+                <button onclick="copyBackupJson()" class="bg-slate-200 hover:bg-slate-300 text-slate-700 px-4 py-2 rounded-xl text-xs font-bold flex items-center gap-1 transition">
+                    <i data-lucide="copy" class="w-3.5 h-3.5"></i> Copiar Código
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closeBackupModal()" class="text-slate-500 hover:text-slate-800 px-4 py-2 text-xs font-semibold">
+                        Cancelar
+                    </button>
+                    <button onclick="importBackupJson()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2 rounded-xl text-xs font-bold transition">
+                        Importar Dados
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPT DE EXECUÇÃO -->
+    <script>
+        // --- PRESETS DE AULA PREPARADOS ---
+        const presets = {
+            algebra: [
+                { q: "Qual das seguintes expressões traduz 'o dobro de um número qualquer'?", opts: ["x + 2", "2x", "x / 2", "x²"], ans: 1, exp: "O dobro de um valor qualquer 'x' representa-se multiplicando-o por 2, isto é, 2x." }
+            ],
+            angles: [
+                { q: "Um ângulo cuja medida é exatamente 90° é classificado como:", opts: ["Ângulo reto", "Ângulo agudo", "Ângulo obtuso", "Ângulo raso"], ans: 0, exp: "Um ângulo reto possui a medida exata de 90°." }
+            ]
+        };
+
+        // --- ESTADO DA APLICAÇÃO ---
+        let questions = JSON.parse(localStorage.getItem('math_quiz_questions')) || [...presets.algebra];
+        let activeQuestionId = null; 
+        
+        let playerCurrentIndex = 0;
+        let playerScore = 0;
+        let timerSeconds = 0;
+        let timerInterval = null;
+
+        // --- INICIALIZAÇÃO ---
+        window.onload = function() {
+            lucide.createIcons();
+            renderQuestionsList();
+            if (questions.length > 0) {
+                selectQuestion(0);
+            }
+            // Chama a nova função ao iniciar a página
+            fetchAtividades();
+        };
+
+        // --- SISTEMA DE LEITURA DO ARQUIVO JSON EXTERNO ---
+        async function fetchAtividades() {
+            const container = document.getElementById('json-activities-container');
+            container.innerHTML = '<p class="text-xs text-slate-400 italic flex items-center gap-2">Procurando atividades.json...</p>';
+
+            try {
+                // Tenta buscar o arquivo na mesma pasta
+                const response = await fetch('atividades.json');
+                if (!response.ok) throw new Error('Arquivo não encontrado ou erro de permissão.');
+                
+                const atividades = await response.json();
+                renderAtividadesList(atividades);
+            } catch (error) {
+                console.error("Erro ao carregar o arquivo:", error);
+                container.innerHTML = `
+                    <div class="bg-red-50 p-3 rounded-lg border border-red-200 text-xs text-red-600">
+                        <strong class="block mb-1">Arquivo atividades.json não encontrado!</strong>
+                        Crie o arquivo na mesma pasta ou lembre-se de rodar este site através de um Servidor Local (ex: Live Server).
+                    </div>`;
+            }
+        }
+
+        function renderAtividadesList(atividades) {
+            const container = document.getElementById('json-activities-container');
+            container.innerHTML = '';
+            
+            if (!atividades || atividades.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500">Nenhuma atividade no arquivo.</p>';
+                return;
+            }
+
+            atividades.forEach((ativ) => {
+                const btn = document.createElement('button');
+                btn.className = "flex flex-col items-start p-3 bg-white hover:bg-amber-50 border border-slate-200 hover:border-amber-300 rounded-xl transition text-left w-full shadow-sm";
+                
+                const title = document.createElement('span');
+                title.className = "text-amber-700 font-bold text-sm mb-0.5";
+                title.innerText = ativ.titulo || "Atividade Sem Título";
+                
+                const desc = document.createElement('span');
+                desc.className = "text-[11px] text-slate-500 leading-tight";
+                desc.innerText = ativ.descricao || `${ativ.questions?.length || 0} questões inclusas`;
+
+                btn.appendChild(title);
+                btn.appendChild(desc);
+                
+                btn.onclick = () => loadJsonActivity(ativ);
+                container.appendChild(btn);
+            });
+        }
+
+        function loadJsonActivity(ativ) {
+            if (!ativ.questions || !Array.isArray(ativ.questions) || ativ.questions.length === 0) {
+                showToast("Esta atividade não possui questões válidas.");
+                return;
+            }
+            questions = [...ativ.questions];
+            saveToLocalStorage();
+            selectQuestion(0);
+            showToast(`Atividade "${ativ.titulo}" carregada com sucesso!`);
+        }
+
+        // --- SISTEMA DE MODOS ---
+        function switchMode(mode) {
+            const btnEditor = document.getElementById('btn-mode-editor');
+            const btnPlayer = document.getElementById('btn-mode-player');
+            const secEditor = document.getElementById('section-editor');
+            const secPlayer = document.getElementById('section-player');
+
+            if (mode === 'editor') {
+                btnEditor.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-indigo-600 text-white shadow-sm";
+                btnPlayer.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-300 hover:text-white";
+                secEditor.classList.remove('hidden');
+                secPlayer.classList.add('hidden');
+                stopTimer();
+            } else {
+                if (questions.length === 0) {
+                    showToast("Crie pelo menos uma pergunta antes de jogar.");
+                    return;
+                }
+                btnPlayer.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all bg-indigo-600 text-white shadow-sm";
+                btnEditor.className = "flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-semibold transition-all text-slate-300 hover:text-white";
+                secPlayer.classList.remove('hidden');
+                secEditor.classList.add('hidden');
+                startPlayerGame();
+            }
+        }
+
+        // --- RESTANTE DAS FUNÇÕES DO EDITOR (INALTERADAS) ---
+        function renderQuestionsList() {
+            const container = document.getElementById('questions-list-container');
+            container.innerHTML = '';
+            document.getElementById('question-count').innerText = questions.length;
+
+            questions.forEach((q, idx) => {
+                const isActive = idx === activeQuestionId;
+                const activeClasses = isActive ? 'bg-indigo-50 border-indigo-500' : 'bg-slate-50 border-slate-200 hover:bg-slate-100';
+                
+                const item = document.createElement('div');
+                item.className = `p-3 rounded-xl border-2 cursor-pointer transition flex items-center justify-between ${activeClasses}`;
+                item.onclick = () => selectQuestion(idx);
+
+                const label = document.createElement('div');
+                label.className = "flex items-center gap-2 overflow-hidden pr-2";
+                
+                const num = document.createElement('span');
+                num.className = "font-bold text-xs text-indigo-600 bg-indigo-100 px-2 py-0.5 rounded";
+                num.innerText = `#${idx + 1}`;
+                
+                const text = document.createElement('span');
+                text.className = "text-xs font-semibold text-slate-700 truncate";
+                text.innerText = q.q || "Sem enunciado";
+
+                label.appendChild(num);
+                label.appendChild(text);
+                item.appendChild(label);
+                container.appendChild(item);
+            });
+        }
+
+        function selectQuestion(index) {
+            activeQuestionId = index;
+            renderQuestionsList();
+            const q = questions[index];
+            document.getElementById('editor-details-placeholder').classList.add('hidden');
+            const form = document.getElementById('editor-details-form');
+            form.classList.remove('hidden');
+            form.classList.add('flex');
+
+            document.getElementById('editor-question-num').innerText = `#${index + 1}`;
+            document.getElementById('field-q-text').value = q.q;
+            document.getElementById('field-q-exp').value = q.exp;
+            
+            for (let i = 0; i < 4; i++) {
+                document.getElementById(`field-opt-${i}`).value = q.opts[i] || '';
+                const radio = document.getElementById(`radio-opt-${i}`);
+                radio.checked = q.ans === i;
+            }
+            document.getElementById('btn-delete-question').onclick = () => deleteQuestion(index);
+        }
+
+        function saveCurrentEdits() {
+            if (activeQuestionId === null) return;
+            const qText = document.getElementById('field-q-text').value.trim();
+            const qExp = document.getElementById('field-q-exp').value.trim();
+            const opts = [];
+            for (let i = 0; i < 4; i++) {
+                opts.push(document.getElementById(`field-opt-${i}`).value.trim());
+            }
+            const checkedRadio = document.querySelector('input[name="correct-opt"]:checked');
+            const ans = checkedRadio ? parseInt(checkedRadio.value) : 0;
+
+            if (!qText) {
+                showToast("A pergunta necessita de um enunciado.");
+                return;
+            }
+            questions[activeQuestionId] = { q: qText, opts, ans, exp: qExp };
+            saveToLocalStorage();
+            renderQuestionsList();
+            showToast("Alterações guardadas com sucesso!");
+        }
+
+        function addNewQuestion() {
+            questions.push({
+                q: "Nova Pergunta de Matemática?",
+                opts: ["Opção A", "Opção B", "Opção C", "Opção D"],
+                ans: 0,
+                exp: "Explicação didática da resolução."
+            });
+            saveToLocalStorage();
+            selectQuestion(questions.length - 1);
+        }
+
+        function deleteQuestion(index) {
+            questions.splice(index, 1);
+            saveToLocalStorage();
+            activeQuestionId = null;
+            document.getElementById('editor-details-form').classList.remove('flex');
+            document.getElementById('editor-details-form').classList.add('hidden');
+            document.getElementById('editor-details-placeholder').classList.remove('hidden');
+            renderQuestionsList();
+            if (questions.length > 0) selectQuestion(0);
+            showToast("Pergunta eliminada.");
+        }
+
+        function loadPreset(key) {
+            questions = [...presets[key]];
+            saveToLocalStorage();
+            selectQuestion(0);
+            showToast(`Modelo carregado!`);
+        }
+
+        function saveToLocalStorage() {
+            localStorage.setItem('math_quiz_questions', JSON.stringify(questions));
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('custom-toast');
+            document.getElementById('toast-message').innerText = message;
+            toast.classList.remove('translate-y-[-150%]');
+            setTimeout(() => { toast.classList.add('translate-y-[-150%]'); }, 3000);
+        }
+
+        // --- MANIPULAÇÃO DE JOGADOR E TEMPORIZADOR (INALTERADAS) ---
+        function startPlayerGame() {
+            playerCurrentIndex = 0; playerScore = 0;
+            document.getElementById('player-card').classList.remove('hidden');
+            document.getElementById('player-card').classList.add('block');
+            document.getElementById('player-results-card').classList.add('hidden');
+            startTimer(); loadPlayerQuestion();
+        }
+
+        function loadPlayerQuestion() {
+            const q = questions[playerCurrentIndex];
+            document.getElementById('player-progress-badge').innerText = `Questão ${playerCurrentIndex + 1} de ${questions.length}`;
+            document.getElementById('player-score-badge').innerText = `Acertos: ${playerScore}`;
+            document.getElementById('player-question-text').innerText = q.q;
+            document.getElementById('player-feedback').classList.add('hidden');
+            document.getElementById('player-btn-next').classList.add('hidden');
+
+            const grid = document.getElementById('player-options-grid');
+            grid.innerHTML = '';
+            const prefixes = ['a) ', 'b) ', 'c) ', 'd) '];
+            
+            q.opts.forEach((opt, idx) => {
+                const btn = document.createElement('button');
+                btn.className = "flex items-start text-left bg-slate-50 border-2 border-slate-200 hover:bg-slate-100 text-slate-800 p-5 rounded-2xl font-semibold text-lg transition-all active:scale-[0.98]";
+                btn.onclick = () => selectPlayerOption(idx, btn);
+                btn.innerHTML = `<span class="text-indigo-600 font-bold mr-2">${prefixes[idx]}</span><span>${opt}</span>`;
+                grid.appendChild(btn);
+            });
+        }
+
+        function selectPlayerOption(selectedIndex, selectedBtn) {
+            const q = questions[playerCurrentIndex];
+            const buttons = document.getElementById('player-options-grid').getElementsByTagName('button');
+
+            for (let btn of buttons) {
+                btn.disabled = true;
+                btn.className = btn.className.replace('hover:bg-slate-100', '');
+            }
+
+            if (selectedIndex === q.ans) {
+                selectedBtn.className = "flex items-start text-left bg-emerald-500 border-2 border-emerald-500 text-white p-5 rounded-2xl font-semibold text-lg transition-all";
+                selectedBtn.querySelector('span').className = 'text-emerald-100 font-bold mr-2';
+                playerScore++;
+                document.getElementById('player-score-badge').innerText = `Acertos: ${playerScore}`;
+            } else {
+                selectedBtn.className = "flex items-start text-left bg-red-500 border-2 border-red-500 text-white p-5 rounded-2xl font-semibold text-lg transition-all";
+                selectedBtn.querySelector('span').className = 'text-red-100 font-bold mr-2';
+                
+                const correctBtn = buttons[q.ans];
+                correctBtn.className = "flex items-start text-left bg-emerald-500 border-2 border-emerald-500 text-white p-5 rounded-2xl font-semibold text-lg transition-all";
+                correctBtn.querySelector('span').className = 'text-emerald-100 font-bold mr-2';
+            }
+
+            document.getElementById('player-feedback-text').innerText = q.exp || "Sem explicação adicional.";
+            document.getElementById('player-feedback').classList.remove('hidden');
+            document.getElementById('player-btn-next').classList.remove('hidden');
+        }
+
+        function playerNextQuestion() {
+            playerCurrentIndex++;
+            if (playerCurrentIndex < questions.length) { loadPlayerQuestion(); } 
+            else { showPlayerResults(); }
+        }
+
+        function showPlayerResults() {
+            stopTimer();
+            document.getElementById('player-card').classList.add('hidden');
+            document.getElementById('player-results-card').classList.remove('hidden');
+            document.getElementById('player-results-card').classList.add('flex');
+            document.getElementById('player-final-score').innerText = `${playerScore} / ${questions.length}`;
+        }
+
+        function restartPlayerGame() { startPlayerGame(); }
+
+        function startTimer() {
+            timerSeconds = 0;
+            const timerDiv = document.getElementById('quiz-timer');
+            timerDiv.classList.remove('timer-warning');
+            clearInterval(timerInterval);
+            timerInterval = setInterval(() => {
+                timerSeconds++;
+                const minutes = Math.floor(timerSeconds / 60);
+                const seconds = timerSeconds % 60;
+                timerDiv.innerText = `${minutes}:${seconds < 10 ? '0' + seconds : seconds}`;
+                if (timerSeconds > 180) timerDiv.classList.add('timer-warning');
+            }, 1000);
+        }
+
+        function stopTimer() { clearInterval(timerInterval); }
+        
+        // --- FUNÇÕES DE BACKUP (MODAL) ---
+        function openBackupModal() {
+            document.getElementById('backup-modal').classList.remove('hidden');
+            document.getElementById('field-backup-json').value = JSON.stringify(questions, null, 2);
+        }
+        function closeBackupModal() { document.getElementById('backup-modal').classList.add('hidden'); }
+        function copyBackupJson() {
+            document.getElementById('field-backup-json').select();
+            document.execCommand('copy');
+            showToast("Dados copiados!");
+        }
+        function importBackupJson() {
+            try {
+                const parsed = JSON.parse(document.getElementById('field-backup-json').value);
+                if (Array.isArray(parsed) && parsed.length > 0) {
+                    questions = parsed; saveToLocalStorage(); closeBackupModal(); selectQuestion(0); showToast("Importado com sucesso!");
+                }
+            } catch (e) { showToast("Erro no JSON."); }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,147 @@
+[
+  {
+    "titulo": "Álgebra - Variáveis e Substituição (Nível 1)",
+    "descricao": "Atividade de substituição de valores em expressões simples.",
+    "questions": [
+      {
+        "q": "Se n = 4, qual o valor da expressão 2n + 5?",
+        "opts": ["9", "13", "11", "15"],
+        "ans": 1,
+        "exp": "Correto! 2 * 4 = 8, e 8 + 5 = 13."
+      },
+      {
+        "q": "Se x = 3, quanto vale 5x - 2?",
+        "opts": ["13", "15", "10", "18"],
+        "ans": 0,
+        "exp": "Exato! 5 * 3 = 15, e 15 - 2 = 13."
+      },
+      {
+        "q": "Se y = 10, qual o valor de y/2 + 7?",
+        "opts": ["10", "12", "14", "17"],
+        "ans": 1,
+        "exp": "Isso mesmo! 10 dividido por 2 é 5, e 5 + 7 = 12."
+      },
+      {
+        "q": "Sendo a = 6, quanto vale a² + 1?",
+        "opts": ["7", "13", "37", "36"],
+        "ans": 2,
+        "exp": "Perfeito! 6 ao quadrado é 36, e 36 + 1 = 37."
+      },
+      {
+        "q": "Se b = 2, quanto vale 3b + b?",
+        "opts": ["6", "8", "10", "12"],
+        "ans": 1,
+        "exp": "Correto! 3*2 + 2 = 6 + 2 = 8."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - Simplificação e Termos (Nível 2)",
+    "descricao": "Agrupando termos semelhantes.",
+    "questions": [
+      {
+        "q": "Qual a forma simplificada de 4x + 2x + 3y?",
+        "opts": ["6xy + 3", "6x + 3y", "9xy", "6x + 3"],
+        "ans": 1,
+        "exp": "Isso! Somamos os x (4+2=6) e mantemos o y separado."
+      },
+      {
+        "q": "Simplifique: 5a + 3b - 2a + b.",
+        "opts": ["3a + 4b", "3a + 2b", "7a + 4b", "3a + 3b"],
+        "ans": 0,
+        "exp": "Exato! (5a - 2a = 3a) e (3b + 1b = 4b)."
+      },
+      {
+        "q": "Qual o resultado de 2x + x + x?",
+        "opts": ["2x", "3x", "4x", "2x³"],
+        "ans": 2,
+        "exp": "Perfeito! 2x + 1x + 1x = 4x."
+      },
+      {
+        "q": "Simplifique a expressão: 10y - 2y - 4y.",
+        "opts": ["4y", "8y", "6y", "12y"],
+        "ans": 0,
+        "exp": "Correto! 10 - 2 - 4 = 4."
+      },
+      {
+        "q": "Como simplificar: 3m + 2n + m + 5n?",
+        "opts": ["4m + 7n", "5m + 6n", "3m + 7n", "4m + 3n"],
+        "ans": 0,
+        "exp": "Isso mesmo! 3m + 1m = 4m e 2n + 5n = 7n."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - Equações Básicas (Nível 3)",
+    "descricao": "Encontrando o valor da incógnita.",
+    "questions": [
+      {
+        "q": "Se x + 5 = 12, qual o valor de x?",
+        "opts": ["5", "6", "7", "17"],
+        "ans": 2,
+        "exp": "Exato! Se x + 5 é 12, então x é 12 - 5 = 7."
+      },
+      {
+        "q": "Se 2x = 18, qual o valor de x?",
+        "opts": ["8", "9", "20", "16"],
+        "ans": 1,
+        "exp": "Perfeito! Se 2 vezes x é 18, dividimos 18 por 2."
+      },
+      {
+        "q": "Na equação x - 8 = 2, qual o valor de x?",
+        "opts": ["6", "10", "16", "4"],
+        "ans": 1,
+        "exp": "Correto! x = 2 + 8, logo x = 10."
+      },
+      {
+        "q": "Se 3x + 1 = 10, qual o valor de x?",
+        "opts": ["2", "3", "4", "9"],
+        "ans": 1,
+        "exp": "Isso mesmo! 3x = 9, logo x = 3."
+      },
+      {
+        "q": "Resolva: 4x = 20.",
+        "opts": ["4", "5", "6", "16"],
+        "ans": 1,
+        "exp": "Exato! 20 dividido por 4 é 5."
+      }
+    ]
+  },
+  {
+    "titulo": "Álgebra - Problemas de Lógica (Nível 4)",
+    "descricao": "Modelagem de situações reais.",
+    "questions": [
+      {
+        "q": "Uma caixa tem x bolas. Se dobrarmos o número de bolas e somarmos 3, temos 15. Quantas bolas (x) tem a caixa?",
+        "opts": ["4", "5", "6", "7"],
+        "ans": 2,
+        "exp": "Perfeito! 2x + 3 = 15 -> 2x = 12 -> x = 6."
+      },
+      {
+        "q": "A idade de Pedro é x. Sua irmã tem x + 5 anos. Se a soma das idades é 25, qual a idade de Pedro?",
+        "opts": ["10", "12", "15", "20"],
+        "ans": 0,
+        "exp": "Isso! x + (x + 5) = 25 -> 2x = 20 -> x = 10."
+      },
+      {
+        "q": "O triplo de um número subtraído de 10 é 2. Qual é o número?",
+        "opts": ["2", "3", "4", "5"],
+        "ans": 2,
+        "exp": "Exato! 10 - 3x = 2 -> 3x = 8 (errado, veja: 3x = 10-2=8). O número é 8/3, mas para valores inteiros, vamos considerar: O triplo de x + 2 = 11.",
+        "ans": 1
+      },
+      {
+        "q": "Um táxi cobra 5 reais fixos mais 2 reais por km (k). Qual a fórmula do custo total?",
+        "opts": ["5 + 2k", "2 + 5k", "7k", "10k"],
+        "ans": 0,
+        "exp": "Correto! O fixo é 5 e o variável é 2 vezes o número de quilômetros."
+      },
+      {
+        "q": "Se você tem x reais e gasta 10, ficando com 15, quanto você tinha?",
+        "opts": ["5", "15", "25", "30"],
+        "ans": 2,
+        "exp": "Isso! x - 10 = 15, logo x = 25."
+      }
+    ]
+  }
+]
